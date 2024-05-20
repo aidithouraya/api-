@@ -11,7 +11,7 @@ import routes from './routes/index.js';
 import Engine from './middlewares/apareilingine.js';
 import { Server } from 'socket.io';
 import http from 'http';
-
+import { spawn }  from'child_process';
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
@@ -278,6 +278,23 @@ app.get('/monitor/addclimatiseur', async (req, res) => {
             "Erreur lors de l'enregistrement des données des climatiseurs dans MongoDB"
         );
     }
+});
+
+app.get('/predict', (req, res) => {
+    const pythonProcess = spawn('python', ['./controllers/fast_api/main.py']);
+
+    pythonProcess.stdout.on('data', (data) => {
+        const predictions = JSON.parse(data.toString());
+        res.json(predictions);
+    });
+
+    pythonProcess.stderr.on('data', (data) => {
+        console.error(`stderr: ${data}`);
+    });
+
+    pythonProcess.on('close', (code) => {
+        console.log(`child process exited with code ${code}`);
+    });
 });
 
 const port = process.env.PORT || 4000;

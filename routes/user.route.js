@@ -6,6 +6,8 @@ import {
     getUser,
     getAllUsers
 } from '../controllers/userManagement/index.js';
+
+
 import isAuth from '../middlewares/isAuth.js';
 import isAdmin from '../middlewares/isAdmin.js';
 
@@ -17,5 +19,7 @@ router.put('/:id', isAuth, isAdmin, updateUser);
 router.delete('/deluser', isAuth, isAdmin, deleteUser);
 router.get('/:id', isAuth, getUser);
 router.get('/', getAllUsers);
+
+
 
 export default router;
