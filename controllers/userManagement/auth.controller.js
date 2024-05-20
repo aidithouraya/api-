@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
-import { User } from '../../models/user/index.js';
+const jwt = require('jsonwebtoken');
+const { User } = require('../../models/user/index.js');
+const bcrypt = require('bcrypt');
 
 const generateAccessToken = (userId, role, email, etat) => {
     const payload = { userId, role, email, etat };
@@ -13,22 +13,22 @@ const generateRefreshToken = (userId) => {
     return jwt.sign({ userId }, process.env.REFRESH_TOKEN_SECRET);
 };
 // Controller function to handle user login
-export const login = async (req, res) => {
+const login = async (req, res) => {
     try {
         const { email, password } = req.body;
 
         // Find user by email
         const user = await User.findOne({ email });
-        console.log (user)
+        console.log(user)
         if (!user) {
             return res.status(401).json({ error: 'Invalid email or password, mochkel hna' });
         }
 
         // Validate password
-      //  const isPasswordValid = await bcrypt.compare(password, user.password);
-      //  if (!isPasswordValid) {
-      //      return res.status(401).json({ error: 'Invalid email or password wala hna' });
-       // }
+          const isPasswordValid = await bcrypt.compare(password, user.password);
+          if (!isPasswordValid) {
+              return res.status(401).json({ error: 'Invalid email or password wala hna' });
+         }
 
         // Generate tokens with user information
         const accessToken = generateAccessToken(user._id, user.role, user.email, user.etat);
@@ -47,7 +47,7 @@ export const login = async (req, res) => {
 };
 
 // Controller function to handle user logout
-export const logout = async (req, res) => {
+const logout = async (req, res) => {
     try {
         // Clear cookies
         res.clearCookie('accessToken');
@@ -60,3 +60,8 @@ export const logout = async (req, res) => {
         res.status(500).json({ error: 'An error occurred while logging out' });
     }
 };
+
+module.exports = { 
+    login,
+     logout
+     };

@@ -1,8 +1,8 @@
-import userModel from "../models/user/user.model.js";
-import bcrypt from "bcryptjs";
+const userModel = require("../models/user/user.model.js");
+const bcrypt = require("bcryptjs");
 
 // Endpoint to reset the password
-export const newpass = async (req, res) => {
+const newpass = async (req, res) => {
     const { email, newPassword } = req.body;
     try {
         // Check if user exists with the provided email
@@ -26,3 +26,5 @@ export const newpass = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
+module.exports = newpass;

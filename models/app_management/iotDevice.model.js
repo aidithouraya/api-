@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const IoTDeviceSchema = new Schema(
@@ -16,4 +16,4 @@ const IoTDeviceSchema = new Schema(
     { timestamps: true }
 );
 
-export default mongoose.model('IoTDevice', IoTDeviceSchema);
+module.exports =  mongoose.model('IoTDevice', IoTDeviceSchema);

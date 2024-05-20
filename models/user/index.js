@@ -1,5 +1,5 @@
-import User from './user.model.js';
-import Technicien from './technicien.model.js';
-import Client from './client.model.js';
+const User = require('./user.model.js');
+const Technicien = require('./technicien.model.js');
+const Client = require('./client.model.js');
 
-export { User, Technicien, Client };
+module.exports = { User, Technicien, Client };

@@ -1,8 +1,6 @@
-// controllers/reglageController.js
+const Report = require('../../models/user/rapport.js');
 
-import Report from '../../models/user/rapport.js';
-
-export const addRapport = async (req, res) => {
+const addRapport = async (req, res) => {
     try {
         const { deviceName, deviceId, userId, rapport } = req.body;
         console.log('🚀 ~ addRapport ~ req.body:', req.body);
@@ -29,9 +27,9 @@ export const addRapport = async (req, res) => {
     }
 };
 
-export const updateRapport = async (req, res) => {};
-export const deleteRapport = async (req, res) => {};
-export const getRapport = async (req, res) => {
+const updateRapport = async (req, res) => {};
+const deleteRapport = async (req, res) => {};
+const getRapport = async (req, res) => {
     try {
         let id = req.params.id;
         const rapport = await Report.findById(id);
@@ -42,7 +40,7 @@ export const getRapport = async (req, res) => {
     }
 };
 
-export const getAllRapports = async (req, res) => {
+const getAllRapports = async (req, res) => {
     try {
         const rapports = await Report.find();
         console.log('🚀 ~ getAllRapports ~ rapports:', rapports);
@@ -54,4 +52,6 @@ export const getAllRapports = async (req, res) => {
     }
 };
 
-export const getUserDevices = async (req, res) => {};
+const getUserDevices = async (req, res) => {};
+
+module.exports = { addRapport, updateRapport, deleteRapport, getRapport, getAllRapports, getUserDevices };

@@ -1,12 +1,13 @@
-import express from 'express';
-import {
+const express = require('express');
+const {
     addApp,
     updateApp,
     deleteApp,
     getApp,
     getAllApps,
     getUserDevices
-} from '../controllers/deviceManagement/apps.controller.js';
+} = require('../controllers/deviceManagement/apps.controller.js');
+
 const router = express.Router();
 
 router.get('/', getAllApps);
@@ -16,4 +17,4 @@ router.delete('/user/:id', deleteApp);
 router.get('/user/:userId', getUserDevices);
 router.get('/:id', getApp);
 
-export default router;
+module.exports = router;

@@ -4,9 +4,7 @@ const verificationSchema = new Schema({
     email: String,
     code: String,
     expiration: Date
-},
-{ timestamps: true }
-);
+});
 
-export default mongoose.model('Verification', verificationSchema)
+module.exports = mongoose.model('Verification', verificationSchema)
 

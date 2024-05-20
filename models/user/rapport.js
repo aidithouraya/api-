@@ -1,6 +1,6 @@
 // models/Report.js
 
-import mongoose from 'mongoose';
+const mongoose =require('mongoose');
 
 const reportSchema = new mongoose.Schema({
     deviceName: {
@@ -19,5 +19,4 @@ const reportSchema = new mongoose.Schema({
     }
 });
 
-const Report = mongoose.model('Report', reportSchema);
-export default Report;
+module.exports = mongoose.model('Report', reportSchema);

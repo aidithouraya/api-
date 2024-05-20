@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const ArmoireSchema = new Schema(
@@ -26,4 +26,4 @@ const ArmoireSchema = new Schema(
     { timestamps: true }
 );
 
-export default mongoose.model('Armoire', ArmoireSchema);
+module.exports = mongoose.model('Armoire', ArmoireSchema);

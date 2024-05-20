@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+const mongoose = require('mongoose');
 
 // Définition du schéma du transformateur
 const transformateurSchema = new mongoose.Schema({
@@ -33,9 +33,8 @@ const transformateurSchema = new mongoose.Schema({
         default: Date.now
     },
 
-    user: { type: Schema.ObjectId, ref: 'User' }
+    user: { type: mongoose.Schema.ObjectId, ref: 'User' }
 });
 
-// Création du modèle MongoDB basé sur le schéma
-const Transformateur = mongoose.model('Transformateur', transformateurSchema);
-export default Transformateur;
+
+module.exports = mongoose.model('Transformateur', transformateurSchema);

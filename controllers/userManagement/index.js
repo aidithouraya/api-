@@ -1,4 +1,21 @@
-import { login, logout } from './auth.controller.js';
-import { addUser, updateUser, deleteUser, getUser, getAllUsers } from './users.controller.js';
+const { 
+    login,
+    logout
+} = require('./auth.controller.js');
+const {
+    addUser,
+    updateUser,
+    deleteUser,
+    getUser,
+    getAllUsers
+} = require('./users.controller.js');
 
-export { login, logout, addUser, updateUser, deleteUser, getUser, getAllUsers };
+module.exports = {
+    login,
+    logout,
+    addUser,
+    updateUser,
+    deleteUser,
+    getUser,
+    getAllUsers
+};

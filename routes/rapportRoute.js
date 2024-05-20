@@ -1,13 +1,14 @@
-import express from 'express';
-import {
+const express = require('express');
+const router = express.Router();
+const {
     addRapport,
     updateRapport,
     deleteRapport,
     getRapport,
     getAllRapports,
     getUserDevices
-} from '../controllers/userManagement/rapports.controller.js';
-const router = express.Router();
+} = require('../controllers/userManagement/rapports.controller.js');
+
 
 router.post('/add', addRapport);
 router.put('/update', updateRapport);
@@ -16,4 +17,4 @@ router.put('/update', updateRapport);
 router.get('/', getAllRapports);
 router.get('/:id', getRapport);
 
-export default router;
+module.exports = router

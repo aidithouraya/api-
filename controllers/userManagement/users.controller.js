@@ -1,18 +1,14 @@
-import { User } from '../../models/user/index.js';
-import bcrypt from 'bcryptjs';
+const { User } = require('../../models/user/index.js');
+const bcrypt = require('bcrypt');
 
-export const addUser = async (req, res) => {
+const addUser = async (req, res) => {
     try {
         // Validate required fields
         const { username, password, role, email, etat } = req.body;
         if (!username || !password || !role || !email || !etat) {
             throw new Error('All fields are required');
         }
-// Check if user with the same username already exists
-  //  const existingUserByUsername = await User.findOne({ username });
-  //  if (existingUserByUsername) {
-    //  throw new Error('User with this username already exists');
-    //}
+
         // Check if user with the same email already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -39,7 +35,7 @@ export const addUser = async (req, res) => {
 };
 
 // Controller function to handle user update
-export const updateUser = async (req, res) => {
+const updateUser = async (req, res) => {
     console.log('entered update user');
     try {
         // Extract user ID from request parameters or body
@@ -76,7 +72,7 @@ export const updateUser = async (req, res) => {
     }
 };
 
-export const deleteUser = async (userId) => {
+const deleteUser = async (userId) => {
     try {
         // Check if user exists
         const user = await User.findById(userId);
@@ -93,7 +89,7 @@ export const deleteUser = async (userId) => {
     }
 };
 
-export const getUser = async (req, res) => {
+const getUser = async (req, res) => {
     const userId = req.params.id;
     try {
         // Find user by ID
@@ -108,7 +104,7 @@ export const getUser = async (req, res) => {
     }
 };
 
-export const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res) => {
     try {
         // Find all users
         const users = await User.find();
@@ -117,3 +113,5 @@ export const getAllUsers = async (req, res) => {
         throw new Error(`Error getting all users: ${error.message}`);
     }
 };
+
+module.exports = { addUser, updateUser, deleteUser, getUser, getAllUsers };

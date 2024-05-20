@@ -1,23 +1,36 @@
-import userModel from "../models/user/user.model.js"
+const User = require('../../models/user/user.model.js')
 
-const Verification = require('../models/Verification.model.js')
+
+const Verification = require('../../models/Verification.model.js')
 const nodemailer = require('nodemailer');
-
 const bcrypt = require('bcrypt');
 
-//app.post('/request-code',
+
 
 const sendCode = async (req, res) => {
     const { email } = req.body;
 
-    const code = generateVerificationCode();
-    await sendVerificationEmail(email, code);
-    await storeVerificationCode(email, code);
 
-    res.send('Verification code send by e-mail');
+    if (!email) {
+        return res.status(400).send("email is required")
+    }
+
+    try {
+
+
+        const code = generateVerificationCode();
+
+        await sendVerificationEmail(email, code);
+        await storeVerificationCode(email, code);
+
+        res.status(200).send('Verification code send by e-mail');
+    } catch (err) {
+        res.status(500).send("internal server error")
+    }
+
 }
 
-//app.post('/verify-code',
+
 
 
 const verifCode = async (req, res) => {
@@ -61,61 +74,39 @@ const verifCode = async (req, res) => {
 };
 
 
-
-app.post('/verify-code', async (req, res) => {
-    const { email, code } = req.body;
-
-    const verification = await Verification.findOne({ email: email, code: code });
-
-    if (!verification) {
-        return res.status(400).send('Code de vérification incorrect');
-    }
-
-    if (verification.expiration < new Date()) {
-        return res.status(400).send('Code de vérification expiré');
-    }
-
-    // Code vérifié avec succès, procédez à la réinitialisation du mot de passe
-    res.send('Code de vérification validé avec succès');
-});
-
-
-
-
-
-
 // Génération du code de vérification
-const  generateVerificationCode = ()=> {
+const generateVerificationCode = () => {
     return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
 // Envoi de l'email de vérification
-const sendVerificationEmail =  async  (email, code)=> {
+const sendVerificationEmail = async (email, code) => {
     let transporter = nodemailer.createTransport({
-        service: 'Gmail',
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
         auth: {
-            user: 'your-email@gmail.com',
-            pass: 'your-email-password'
+            user: process.env.NODEMAILER_USER,
+            pass: process.env.NODEMAILER_PASS,
         }
     });
 
     let mailOptions = {
-        from: 'your-email@gmail.com',
+        from: process.env.NODEMAILER_USER,
         to: email,
-        subject: 'Votre code de vérification',
-        text: `Votre code de vérification est ${code}`
+        subject: 'Reset Password',
+        text: `Your code of verification is ${code}`
     };
 
     try {
         await transporter.sendMail(mailOptions);
-        console.log('Email envoyé avec succès');
     } catch (error) {
-        console.error('Erreur lors de l\'envoi de l\'email:', error);
+        throw new error("Failed to send mail contact your administarator")
     }
 }
 
 // Stockage du code de vérification
-const storeVerificationCode = async (email, code)=> {
+const storeVerificationCode = async (email, code) => {
     const expiration = new Date(Date.now() + 10 * 60000); // Le code expire dans 10 minutes
 
     const verification = new Verification({
@@ -127,11 +118,7 @@ const storeVerificationCode = async (email, code)=> {
     await verification.save();
 }
 
-module.exports = {verifCode,sendCode};
-
-
-
-
-
-
-
+module.exports = {
+    verifCode,
+    sendCode
+}

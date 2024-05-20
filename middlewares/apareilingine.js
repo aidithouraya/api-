@@ -1,6 +1,6 @@
-import _ from 'underscore';
-import Chance from 'chance';
-import moment from 'moment';
+const _  = require('underscore');
+const Chance  = require('chance');
+const moment =require ('moment');
 
 const chance = new Chance();
 
@@ -127,4 +127,4 @@ function Engine(options, socket) {
     };
 }
 
-export default Engine;
+module.exports =  Engine;

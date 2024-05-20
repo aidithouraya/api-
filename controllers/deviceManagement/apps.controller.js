@@ -1,8 +1,9 @@
-import IoTDevice from '../../models/app_management/iotDevice.model.js';
-import Armoire from '../../models/app_management/armoir.model.js';
-import CompteurIoT from '../../models/app_management/compteurIOT.model.js';
-import Transformateur from '../../models/app_management/Transformateur.modele.js';
-export const addApp = async (req, res) => {
+const IoTDevice = require('../../models/app_management/iotDevice.model.js');
+const Armoire = require('../../models/app_management/armoir.model.js');
+const CompteurIoT = require('../../models/app_management/compteurIOT.model.js');
+const Transformateur = require('../../models/app_management/Transformateur.modele.js');
+
+const addApp = async (req, res) => {
     try {
         let device = null;
         if (req.body.typeDevice == 'armoire') {
@@ -36,9 +37,9 @@ export const addApp = async (req, res) => {
     }
 };
 
-export const updateApp = () => {};
+const updateApp = () => {};
 
-export const deleteApp = async (req, res) => {
+const deleteApp = async (req, res) => {
     try {
         let deviceId = req.params.id;
         // Check if user exists
@@ -56,7 +57,7 @@ export const deleteApp = async (req, res) => {
     }
 };
 
-export const getApp = async (req, res) => {
+const getApp = async (req, res) => {
     try {
         let deviceId = req.params.id;
         const devices = await IoTDevice.findById(deviceId);
@@ -79,7 +80,7 @@ export const getApp = async (req, res) => {
     }
 };
 
-export const getAllApps = async (req, res) => {
+const getAllApps = async (req, res) => {
     try {
         const devices = await IoTDevice.find();
 
@@ -89,7 +90,7 @@ export const getAllApps = async (req, res) => {
     }
 };
 
-export const getUserDevices = async (req, res) => {
+const getUserDevices = async (req, res) => {
     try {
         console.log('here ! ');
         const { userId } = req.params;
@@ -109,3 +110,5 @@ export const getUserDevices = async (req, res) => {
         throw new Error(`Error getting devices: ${error.message}`);
     }
 };
+
+module.exports = { addApp, updateApp, deleteApp, getApp, getAllApps, getUserDevices };
